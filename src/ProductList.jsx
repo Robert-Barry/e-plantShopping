@@ -10,6 +10,9 @@ function ProductList({ onHomeClick }) {
     const cartItems = useSelector((state) => state.cart.items);
     const dispatch = useDispatch();
 
+    const inCart = (itemName) => {
+        return cartItems.some((item) => item.name === itemName);
+    }
     
     const plantsArray = [
         {
@@ -318,12 +321,13 @@ function ProductList({ onHomeClick }) {
                                 <div className="product-title">{plant.name}</div> {/* Display plant name */}
                                 {/* Display other plant details like description and cost */}
                                 <div className="product-description">{plant.description}</div> {/* Display plant description */}
-                                <div className="product-cost">${plant.cost}</div> {/* Display plant cost */}
+                                <div className="product-cost">{plant.cost}</div> {/* Display plant cost */}
                                 <button
-                                    className="product-button"
+                                    className={inCart(plant.name) ? "product-button added-to-cart" : "product-button"}
+                                    disabled={inCart(plant.name)? true:false}
                                     onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
                                 >
-                                    Add to Cart
+                                    {inCart(plant.name) ? "Added to Cart" : "Add to Cart"}
                                 </button>
                                 </div>
                             ))}
